@@ -1,0 +1,54 @@
+@import './Add.module.scss';
+
+.color {
+	flex: 1 1 auto;
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr;
+	justify-items: center;
+	align-items: center;
+	transition: background 1s ease,transform 0.2s ease, left 0.2s ease;
+	position: relative;
+	z-index: 1;
+
+	&:hover {
+		.actions {
+			opacity: 1;
+		}
+
+		.add {
+			opacity: 1;
+		}
+	}
+}
+
+.actions {
+	display: flex;
+	flex-direction: column;
+	align-self: end;
+	opacity: 0;
+	transition: opacity 1s ease;
+	position: relative	;
+}
+
+.add {
+	opacity: 0;
+	transition: opacity 1s ease;
+	margin-right: 10px;
+}
+
+.info {
+	text-align: center;
+}
+
+.hex {
+	font-size: 42px;
+	font-weight: 700;
+	margin-bottom: 10px;
+	cursor: default;
+}
+
+.name {
+	font-size: 16px;
+	font-weight: 500;
+	cursor: default;
+}

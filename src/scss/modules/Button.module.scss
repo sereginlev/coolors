@@ -1,0 +1,50 @@
+.btn {
+	background: transparent;
+	font-size: 20px;
+	padding: 10px;
+	border-radius: 10px;
+	transition: all 1s;
+
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.3);
+		transition: all 0.5s;
+		transform: scale(1.2);
+	}
+
+	&:active {
+		background-color: rgba(255, 255, 255, 0.7);
+		transition: all 0.3s;
+	}
+}
+
+.tooltip {
+	font-size: 14px !important;
+	opacity: 1;
+}
+
+.portal {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 15px;
+	color: #fff;
+	background: #000;
+	border-radius: 30px;
+	font-size: 18px;
+	z-index: 2;
+	animation: showPortal 0.5s forwards;
+
+	i {
+		margin-right: 5px;
+	}
+}
+
+@keyframes showPortal {
+	0% {
+		bottom: 0;
+	}
+
+	100% {
+		bottom: 10%;
+	}
+}
