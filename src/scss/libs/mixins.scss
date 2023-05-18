@@ -1,0 +1,81 @@
+$font-family: (
+	'Inter',
+	sans-serif
+);
+$padding: 0;
+
+@mixin text-styles($font-size, $font-weight, $font-family: $font-family) {
+	font-family: $font-family;
+	font-size: $font-size;
+	font-weight: $font-weight;
+	cursor: default;
+
+	@media (max-width: 1200px) {
+		font-size: $font-size * 0.8;
+	}
+
+	@media (max-width: 992px) {
+		font-size: $font-size * 0.7;
+	}
+
+	@media (max-width: 767px) {
+		font-size: $font-size * 0.5;
+	}
+
+	@media (max-width: 480px) {
+		font-size: $font-size * 0.4;
+	}
+}
+
+@mixin button-styles($font-size, $padding) {
+	font-size: $font-size;
+	padding: $padding;
+
+	@media (max-width: 1200px) {
+		font-size: $font-size * 0.8;
+	}
+
+	@media (max-width: 992px) {
+		font-size: $font-size * 0.7;
+		padding: 8px;
+	}
+
+	@media (max-width: 767px) {
+		font-size: $font-size * 0.5;
+		padding: 6px;
+	}
+
+	@media (max-width: 480px) {
+		font-size: $font-size * 0.4;
+	}
+}
+
+@mixin add-styles($font-size, $width, $height) {
+	font-size: $font-size;
+	width: $width;
+	height: $height;
+
+	@media (max-width: 1200px) {
+		font-size: $font-size * 0.8;
+		width: 50px;
+		height: 50px;
+	}
+
+	@media (max-width: 992px) {
+		font-size: $font-size * 0.7;
+		width: 40px;
+		height: 40px;
+	}
+
+	@media (max-width: 767px) {
+		font-size: $font-size * 0.4;
+		width: 20px;
+		height: 20px;
+	}
+
+	@media (max-width: 480px) {
+		width: 20px;
+		height: 20px;
+		font-size: $font-size * 0.4;
+	}
+}

@@ -21,7 +21,6 @@ export const fetchColor = createAsyncThunk(
 
 const initialState = {
 	colors: [],
-	names: [],
 	hash: '',
 	status: ''
 }

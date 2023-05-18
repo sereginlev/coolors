@@ -1,7 +1,9 @@
+@import '../libs/variables.scss';
+@import '../libs/mixins.scss';
+
 .add {
-	width: 60px;
-	height: 60px;
-	font-size: 30px;
+	@include add-styles(30px, 60px, 60px);
+
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
@@ -21,9 +23,31 @@
 			background-color: rgba(0, 0, 0, 0.5);
 			transition: all 0.3s;
 		}
+
+		@media (max-width: 992px) {
+			padding: 6px;
+		}
+
+		@media (max-width: 767px) {
+			padding: 2px;
+		}
 	}
 }
 
 .tooltip {
-	font-size: 14px !important;
+	font-size: 16px !important;
+	font-family: 'Lato', sans-serif !important;
+	opacity: 1;
+
+	@media (max-width: 992px) {
+		font-size: 14px !important;
+	}
+
+	@media (max-width: 767px) {
+		font-size: 12px !important;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 11px !important;
+	}
 }

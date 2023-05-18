@@ -1,19 +1,21 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import chroma from 'chroma-js';
 import { DndContext, closestCenter } from '@dnd-kit/core';
-import { arrayMove, SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
-import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
+import { arrayMove, SortableContext, horizontalListSortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { restrictToHorizontalAxis, restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import chroma from 'chroma-js';
 
 import styles from 'scss/modules/Main.module.scss';
 
 import { setHash, setColors, generateColors, changeOrder } from './redux/slice/colorsSlice';
 
+import Header from 'components/Header';
 import Color from './components/Color';
 
 function App() {
 	const dispatch = useDispatch();
 	const [string, setString] = React.useState(window.location.hash);
+	const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
 
 	const { hash, colors } = useSelector(state => state.colors);
 
@@ -62,6 +64,16 @@ function App() {
 		}
 	}, [colors]);
 
+	React.useEffect(() => {
+		const hanldeResize = () => {
+			setWindowWidth(window.innerWidth);
+		}
+
+		window.addEventListener('resize', hanldeResize);
+
+		return () => window.removeEventListener('resize', hanldeResize);
+	}, [])
+
 	//===change order of colors when it dragged======================================================================================================
 	function handleDragEnd(event) {
 		const { active, over } = event;
@@ -76,11 +88,14 @@ function App() {
 
 	return (
 		<div className={styles.main}>
-			<DndContext modifiers={[restrictToHorizontalAxis]} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-				<SortableContext items={colors} strategy={horizontalListSortingStrategy}>
+			<DndContext modifiers={windowWidth > 767 ? [restrictToHorizontalAxis] : [restrictToVerticalAxis]} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+
+				<Header />
+
+				<SortableContext items={colors} strategy={windowWidth > 767 ? horizontalListSortingStrategy : verticalListSortingStrategy}>
 					{
 						colors.map((color, index) => (
-								<Color key={index} index={index} {...color} />
+							<Color key={index} index={index} {...color} />
 						))
 					}
 				</SortableContext>

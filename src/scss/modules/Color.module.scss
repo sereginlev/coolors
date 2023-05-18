@@ -1,12 +1,14 @@
 @import './Add.module.scss';
+@import '../libs/variables.scss';
+@import '../libs/mixins.scss';
 
 .color {
 	flex: 1 1 auto;
 	display: grid;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 0.2fr 1fr;
 	justify-items: center;
 	align-items: center;
-	transition: background 1s ease,transform 0.2s ease, left 0.2s ease;
+	transition: background 1s ease, transform 0.2s ease, left 0.2s ease;
 	position: relative;
 	z-index: 1;
 
@@ -19,6 +21,13 @@
 			opacity: 1;
 		}
 	}
+
+	@media (max-width: 767px) {
+		grid-template-columns: 0.5fr 1fr;
+		grid-template-rows: repeat(2, 1fr);
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
 }
 
 .actions {
@@ -27,28 +36,43 @@
 	align-self: end;
 	opacity: 0;
 	transition: opacity 1s ease;
-	position: relative	;
+	position: relative;
+
+	@media (max-width: 992px) {
+		opacity: 1;
+	}
+
+	@media (max-width: 767px) {
+		flex-direction: row;
+	}
 }
 
 .add {
 	opacity: 0;
 	transition: opacity 1s ease;
 	margin-right: 10px;
+
+	@media (max-width: 992px) {
+		opacity: 1;
+	}
+
+	@media (max-width: 767px) {
+		justify-self: center;
+	}
 }
 
 .info {
 	text-align: center;
+	@media (max-width: 767px) {
+		grid-area: 1 / 1 / 3 / 2;
+	}
 }
 
 .hex {
-	font-size: 42px;
-	font-weight: 700;
-	margin-bottom: 10px;
-	cursor: default;
+	@include text-styles(42px, 700, ('Lato', sans-serif));
 }
 
 .name {
-	font-size: 16px;
-	font-weight: 500;
-	cursor: default;
+	@include text-styles(18px, 500);
+	margin-top: 10px;
 }
