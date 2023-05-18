@@ -9,7 +9,6 @@ const portal = document.getElementById('portal');
 function Copy({ hex, luminance }) {
 	const [isCopy, setIsCopy] = React.useState(false);
 
-
 	const black = [styles.btn, styles.black].join(' ');
 	const white = styles.btn;
 

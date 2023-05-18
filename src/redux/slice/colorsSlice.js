@@ -4,13 +4,13 @@ import chroma from 'chroma-js';
 
 export const fetchColor = createAsyncThunk(
 	'colors/fetchColor',
-	async (hex, rejectWithValue) => {
-		const { code, index } = hex;
+	async (props, rejectWithValue) => {
+		const { hex, index } = props;
 
 		try {
-			const { data } = await axios.get(`https://www.thecolorapi.com/id?hex=${code}`);
+			const { data } = await axios.get(`https://www.thecolorapi.com/id?hex=${hex}`);
 
-			const response = { name: data.name.value, index: index };
+			const response = { hex: data.name.value, index: index };
 
 			return response;
 		} catch (error) {
@@ -20,13 +20,8 @@ export const fetchColor = createAsyncThunk(
 )
 
 const initialState = {
-	colors: [
-		{ id: 1, hex: chroma.random().hex(), luminance: null, name: null, isLocked: false },
-		{ id: 2, hex: chroma.random().hex(), luminance: null, name: null, isLocked: false },
-		{ id: 3, hex: chroma.random().hex(), luminance: null, name: null, isLocked: false },
-		{ id: 4, hex: chroma.random().hex(), luminance: null, name: null, isLocked: false },
-		{ id: 5, hex: chroma.random().hex(), luminance: null, name: null, isLocked: false }
-	],
+	colors: [],
+	names: [],
 	hash: '',
 	status: ''
 }
@@ -35,68 +30,73 @@ export const colorsSlice = createSlice({
 	name: 'colors',
 	initialState,
 	reducers: {
-		setId(state, action) {
-			state.colors.map((color, i) => {
-				if (i === action.payload) {
-					color.id = action.payload + 1;
-				}
-			})
+		setHash(state, action) {
+			state.hash = action.payload;
 		},
-		setHex(state, action) {
-			state.colors.map((color, i) => {
-				if (i === action.payload.index) {
-					color.hex = action.payload.hex;
-				}
-			})
-		},
-		setLuminance(state, action) {
-			state.colors.map((color, i) => {
-				if (i === action.payload) {
-					color.luminance = chroma(color.hex).luminance();
-				}
+		setColors(state) {
+			state.colors = state.hash.split('-').map((hex, index) => {
+				return { id: index + 1, hex: `#${hex}`, luminance: chroma(`#${hex}`).luminance(), isLocked: false }
 			});
 		},
-		toggleLock(state, action) {
-			state.colors.map((color, i) => {
-				if (i === action.payload.index) {
-					color.isLocked = action.payload.isLocked;
+		generateColors(state, action) {
+			state.colors = state.hash.split('-').map((hex, index) => {
+				const item = action.payload[index];
+
+				if (index == item.index) {
+					return { id: index + 1, hex: `#${item.hex}`, luminance: chroma(`#${item.hex}`).luminance(), isLocked: item.isLocked }
 				}
 			});
 		},
 		addColor(state, action) {
 			if (state.colors.length < 8) {
-				state.colors.splice(action.payload + 1, 0, {
-					id: action.payload + 1,
+				state.colors.splice(action.payload.index + 1, 0, {
+					id: action.payload.index + 1,
 					hex: chroma.random().hex(),
-					luminance: null,
-					name: null,
+					luminance: chroma(action.payload.hex).luminance(),
 					isLocked: false
 				});
 
 				state.colors.map((color, i) => {
-					if (i > action.payload) {
+					if (i > action.payload.index) {
 						return color.id++;
 					}
 				})
+
+				state.hash = '';
+
+				state.colors.map((color, index) => {
+					if (index === 0) {
+						state.hash += `${color.hex.slice(1)}`
+					} else {
+						state.hash += `-${color.hex.slice(1)}`
+					}
+				});
 			}
 		},
 		removeColor(state, action) {
 			if (state.colors.length > 1) {
-				state.colors = state.colors.filter((col, i) => i !== action.payload);
+				state.colors = state.colors.filter((color, index) => index !== action.payload);
+
+				state.hash = '';
+
+				state.colors.map((color, index) => {
+					if (index === 0) {
+						state.hash += `${color.hex.slice(1)}`
+					} else {
+						state.hash += `-${color.hex.slice(1)}`
+					}
+				});
 			}
+		},
+		toggleLock(state, action) {
+			state.colors.map((color, i) => {
+				if (i === action.payload.index) {
+					return color.isLocked = action.payload.isLocked;
+				}
+			});
 		},
 		changeOrder(state, action) {
 			state.colors = action.payload;
-		},
-		setHash(state) {
-			state.hash = '';
-			state.colors.map((color, i) => {
-				if (i === 0) {
-					state.hash += `${color.hex.slice(1)}`
-				} else {
-					state.hash += `-${color.hex.slice(1)}`
-				}
-			});
 		}
 	},
 	extraReducers: {
@@ -106,11 +106,9 @@ export const colorsSlice = createSlice({
 		},
 		[fetchColor.fulfilled]: (state, action) => {
 			state.status = 'success';
-			state.colors.map((color, i) => {
-				if (i === action.payload.index) {
-					color.name = action.payload.name;
-				} else {
-					return
+			state.colors.map((color, index) => {
+				if (index === action.payload.index) {
+					return color.name = action.payload.hex;
 				}
 			});
 		},
@@ -119,9 +117,8 @@ export const colorsSlice = createSlice({
 			state.colors.map(color => color.name);
 		}
 	}
-})
+});
 
+export const { setHash, setColors, generateColors, addColor, removeColor, toggleLock, changeOrder } = colorsSlice.actions;
 
-export const { setId, setHex, setHash, setName, setLuminance, toggleLock, addColor, removeColor, changeOrder } = colorsSlice.actions;
-
-export default colorsSlice.reducer
+export default colorsSlice.reducer;

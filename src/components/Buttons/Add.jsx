@@ -7,12 +7,12 @@ import styles from 'scss/modules/Add.module.scss';
 
 import { addColor } from 'redux/slice/colorsSlice';
 
-function Add({ index }) {
+function Add({ index, hex }) {
 	const dispatch = useDispatch();
 
 	return (
 		<>
-			<button id='add' className={styles.add} type='button' onClick={() => dispatch(addColor(index))} >
+			<button id='add' className={styles.add} type='button' onClick={() => dispatch(addColor({ hex: hex, index: index }))}>
 				<i className="fa-solid fa-plus"></i>
 			</button>
 
