@@ -2,6 +2,7 @@
   "name": "coolors.v2",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jNMmT.github.io/coolors",
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
