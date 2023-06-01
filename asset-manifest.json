@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/coolors/static/css/main.7294c946.css",
+    "main.js": "/coolors/static/js/main.6c2c73a5.js",
+    "index.html": "/coolors/index.html",
+    "main.7294c946.css.map": "/coolors/static/css/main.7294c946.css.map",
+    "main.6c2c73a5.js.map": "/coolors/static/js/main.6c2c73a5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7294c946.css",
+    "static/js/main.6c2c73a5.js"
+  ]
+}
