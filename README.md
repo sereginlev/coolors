@@ -1,6 +1,6 @@
 # Coolors
 
-Coolors is app for generating random colors and compiling palettes. Based onn [coolor.co](https://coolors.co).
+Color palettes generator. Based on [coolor.co](https://coolors.co).
 
 ## Installation
 
