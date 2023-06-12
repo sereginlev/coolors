@@ -4,7 +4,7 @@ Coolors is app for generating random colors and compiling palettes. Based onn [c
 
 ## Installation
 
-Just follow this [link](https://jnmmt.github.io/coolors/).
+Follow this [link](https://sereginlev.github.io/coolors/).
 
 ## Usage
 
@@ -31,6 +31,3 @@ __User can:__
 - __[Chroma JS](https://gka.github.io/chroma.js/)__
 - __[SCSS](https://sass-lang.com/)__
 - __[CSS Modules](https://github.com/css-modules/css-modules)__
-
-### Thank you for your time!!! 😊
-
