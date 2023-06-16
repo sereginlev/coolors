@@ -2,9 +2,7 @@
 
 Color palettes generator. Based on [coolor.co](https://coolors.co).
 
-## Installation
-
-Follow this [link](https://sereginlev.github.io/coolors/).
+![Coolors screenshot](https://github.com/sereginlev/coolors/blob/master/coolors.jpg)
 
 ## Usage
 
