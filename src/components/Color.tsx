@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from 'hook';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -13,9 +13,17 @@ import Drag from './Buttons/Drag';
 
 import { fetchColor } from 'redux/slice/colorsSlice';
 
-function Color({ id, hex, luminance, isLocked, index }) {
-	const dispatch = useDispatch();
-	const { colors } = useSelector(state => state.colors);
+type ColorProps = {
+	id: number;
+	hex: string;
+	luminance: number;
+	isLocked: boolean;
+	index: number;
+}
+
+const Color: React.FC<ColorProps> = ({ id, hex, luminance, isLocked, index }) => {
+	const dispatch = useAppDispatch();
+	const { colors } = useAppSelector(state => state.colors);
 
 	const color = luminance > 0.5 ? 'black' : 'white';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { DndContext, closestCenter } from '@dnd-kit/core';
+import { useAppSelector, useAppDispatch } from 'hook';
+import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, horizontalListSortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToHorizontalAxis, restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import chroma from 'chroma-js';
@@ -12,12 +12,20 @@ import { setHash, setColors, generateColors, changeOrder } from './redux/slice/c
 import Header from 'components/Header';
 import Color from './components/Color';
 
-function App() {
-	const dispatch = useDispatch();
+type Color = {
+	id: number;
+	hex: string;
+	luminance: number;
+	isLocked: boolean;
+	index: number;
+}
+
+const App: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const [string, setString] = React.useState(window.location.hash);
 	const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
 
-	const { hash, colors } = useSelector(state => state.colors);
+	const { hash, colors } = useAppSelector(state => state.colors);
 
 	React.useEffect(() => {
 		window.location.hash = hash;
@@ -34,21 +42,21 @@ function App() {
 			}
 		}
 
-		const generate = (e) => {
-			if (e.code.toLowerCase() === 'space') {
-				e.preventDefault();
+		const generate = (event: KeyboardEvent) => {
+			if (event.code.toLowerCase() === 'space') {
+				event.preventDefault();
 
-				let newHexes = [];
+				let newHexes: Color[] = [];
 
 				for (let i = 0; i < colors.length; i++) {
 					if (colors[i].isLocked) {
-						newHexes.push({ hex: colors[i].hex.slice(1), isLocked: true, index: i });
+						newHexes.push({ id: colors[i].id, hex: colors[i].hex.slice(1), isLocked: true, luminance: colors[i].luminance, index: i });
 					} else {
-						newHexes.push({ hex: chroma.random().hex().slice(1), isLocked: false, index: i });
+						newHexes.push({ id: colors[i].id, hex: chroma.random().hex().slice(1), isLocked: false, luminance: colors[i].luminance, index: i });
 					}
 				};
 
-				let str = newHexes.map(item => item.hex).join('-');
+				let str: string = newHexes.map(item => item.hex).join('-');
 
 				dispatch(setHash(str));
 				dispatch(generateColors(newHexes));
@@ -75,11 +83,11 @@ function App() {
 	}, [])
 
 	//===change order of colors when it dragged======================================================================================================
-	function handleDragEnd(event) {
+	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
 
-		const startIndex = active.data.current.sortable.index;
-		const endIndex = over.data.current.sortable.index;
+		const startIndex: number = active?.data.current?.sortable.index;
+		const endIndex: number = over?.data.current?.sortable.index;
 
 		if (startIndex !== endIndex) {
 			dispatch(changeOrder(arrayMove(colors, startIndex, endIndex)));

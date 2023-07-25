@@ -6,13 +6,18 @@ import styles from 'scss/modules/Button.module.scss';
 
 const portal = document.getElementById('portal');
 
-function Copy({ hex, luminance }) {
+type CopyProps = {
+	hex: string;
+	luminance: number;
+}
+
+const Copy: React.FC<CopyProps> = ({ hex, luminance }) => {
 	const [isCopy, setIsCopy] = React.useState(false);
 
 	const black = [styles.btn, styles.black].join(' ');
-	const white = styles.btn;
+	const white: string = styles.btn;
 
-	const className = luminance > 0.5 ? black : white;
+	const className: string = luminance > 0.5 ? black : white;
 	const color = luminance > 0.5 ? 'black' : 'white';
 
 	const copyHex = () => {
@@ -30,10 +35,10 @@ function Copy({ hex, luminance }) {
 			</button>
 
 			{
-				isCopy &&
+				isCopy && portal &&
 				ReactDOM.createPortal(
 					<div className={styles.portal}>
-						<i class="fa-sharp fa-solid fa-circle-check"></i> 
+						<i className="fa-sharp fa-solid fa-circle-check"></i> 
 						Color copied to the clipboard!
 					</div>,
 					portal

@@ -1,16 +1,21 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'hook';
 import { Tooltip } from 'react-tooltip';
 
 import styles from 'scss/modules/Button.module.scss';
 
 import { removeColor } from 'redux/slice/colorsSlice';
 
-function Remove({ index, luminance }) {
-	const dispatch = useDispatch();
+type RemoveProps = {
+	index: number;
+	luminance: number;
+}
+
+const Remove: React.FC<RemoveProps> = ({ index, luminance }) => {
+	const dispatch = useAppDispatch();
 
 	const black = [styles.btn, styles.black].join(' ');
-	const white = styles.btn;
+	const white: string = styles.btn;
 
 	const className = luminance > 0.5 ? black : white;
 	const color = luminance > 0.5 ? 'black' : 'white';

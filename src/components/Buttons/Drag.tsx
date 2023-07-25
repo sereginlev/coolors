@@ -1,16 +1,21 @@
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import React from 'react';
 import { Tooltip } from 'react-tooltip';
 
 import styles from 'scss/modules/Button.module.scss';
 
-function Drag(props) {
+type DragProps = {
+	luminance: number;
+}
+
+const Drag: React.FC<DragProps> = (props) => {
 	const { ...listeners } = props;
 	const { luminance } = props;
 
 	const black = [styles.btn, styles.black].join(' ');
-	const white = styles.btn;
+	const white: string = styles.btn;
 
-	const className = luminance > 0.5 ? black : white;
+	const className: string = luminance > 0.5 ? black : white;
 	const color = luminance > 0.5 ? 'black' : 'white';
 
 	return (

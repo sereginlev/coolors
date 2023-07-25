@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'hook';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
@@ -7,8 +7,13 @@ import styles from 'scss/modules/Add.module.scss';
 
 import { addColor } from 'redux/slice/colorsSlice';
 
-function Add({ index, hex }) {
-	const dispatch = useDispatch();
+type AddProps = {
+	index: number;
+	hex: string;
+}
+
+const Add: React.FC<AddProps> = ({ index, hex }) => {
+	const dispatch = useAppDispatch();
 
 	return (
 		<>

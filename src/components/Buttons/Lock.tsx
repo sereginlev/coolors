@@ -1,16 +1,22 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'hook';
 import { Tooltip } from 'react-tooltip';
 
 import styles from 'scss/modules/Button.module.scss';
 
 import { toggleLock } from 'redux/slice/colorsSlice';
 
-function Lock({ index, isLocked, luminance }) {
-	const dispatch = useDispatch();
+type LockProps = {
+	index: number;
+	isLocked: boolean;
+	luminance: number;
+}
+
+const Lock: React.FC<LockProps> = ({ index, isLocked, luminance }) => {
+	const dispatch = useAppDispatch();
 
 	const black = [styles.btn, styles.black].join(' ');
-	const white = styles.btn;
+	const white: string = styles.btn;
 
 	const className = luminance > 0.5 ? black : white;
 	const color = luminance > 0.5 ? 'black' : 'white';
